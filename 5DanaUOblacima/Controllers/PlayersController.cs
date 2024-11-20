@@ -9,10 +9,10 @@ namespace _5DanaUOblacima.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlayerController : ControllerBase
+    public class PlayersController : ControllerBase
     {
         private readonly PlayerService _playerService;
-        public PlayerController(PlayerService playerService)
+        public PlayersController(PlayerService playerService)
         {
             _playerService = playerService;
         }
@@ -35,7 +35,7 @@ namespace _5DanaUOblacima.Controllers
         }
 
         // POST api/<PlayerController>
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult Post([FromBody] PlayerInsertDTO dto)
         {
           _playerService.AddPlayer(dto);

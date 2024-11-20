@@ -33,15 +33,10 @@ namespace _5DanaUOblacima.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] TeamInsertDTO dto)
         {
-            bool result = _teamService.AddTeam(dto);
-            if (result)
-            {
-                return Ok(_teamService.GetTeams(null).Result);
-            }
-            else
-            {
-                return StatusCode(409);
-            }
+            _teamService.AddTeam(dto);
+  
+             return Ok(_teamService.GetTeams(null).Result);
+         
         }
 
         // PUT api/<TeamsController>/5

@@ -38,15 +38,11 @@ namespace _5DanaUOblacima.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] PlayerInsertDTO dto)
         {
-           bool result=_playerService.AddPlayer(dto);
-            if (result)
-            {
-                return Ok(_playerService.GetPlayer(null).Result);
-            }
-            else
-            {
-                return StatusCode(409);
-            }
+          _playerService.AddPlayer(dto);
+
+          return Ok(_playerService.GetPlayer(null).Result);
+            
+           
             
         }
 

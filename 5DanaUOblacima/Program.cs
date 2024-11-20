@@ -1,3 +1,4 @@
+using _5DanaUOblacima.Exceptions;
 using _5DanaUOblacima.Services;
 using _5DanaUOblacima.Validations;
 using DataAcess;
@@ -25,9 +26,13 @@ builder.Services.AddScoped<TeamService>();
 builder.Services.AddScoped<MatchService>();
 
 
+builder.Services.AddScoped<PlayerValidation>();
+builder.Services.AddScoped<TeamValidation>();
 builder.Services.AddScoped<MatchValidation>();
 
+
 var app = builder.Build();
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

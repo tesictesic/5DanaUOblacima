@@ -1,7 +1,9 @@
 ﻿using _5DanaUOblacima.DTO.Get;
 using _5DanaUOblacima.DTO.Post;
+using _5DanaUOblacima.Validations;
 using DataAcess;
 using Domain;
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +12,15 @@ namespace _5DanaUOblacima.Services
     public class PlayerService
     {
         private readonly GameContext _gameContext;
-        public PlayerService(GameContext context)
+        private readonly PlayerValidation _validation;
+        public PlayerService(GameContext context,PlayerValidation validation)
         {
             _gameContext=context;
+            _validation=validation;
         }
-        public bool AddPlayer(PlayerInsertDTO dto)
+        public void AddPlayer(PlayerInsertDTO dto)
         {
-            if (string.IsNullOrEmpty(dto.nickname)) return false;
-
-            bool exist=_gameContext.Players.Any(y=>y.nickname == dto.nickname);
-            if (exist) return false;
+           this._validation.ValidateAndThrow(dto);
 
             Player player1 = new Player
             {
@@ -32,7 +33,7 @@ namespace _5DanaUOblacima.Services
             };
             _gameContext.PlayerStatistic.Add(statistic);
             _gameContext.SaveChanges();
-            return true;
+           
         }
        public async Task<List<PlayerGetDTO>> GetPlayer(Guid? id)
         {

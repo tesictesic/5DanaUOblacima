@@ -1,29 +1,26 @@
 ﻿ using _5DanaUOblacima.DTO.Get;
 using _5DanaUOblacima.DTO.Post;
+using _5DanaUOblacima.Validations;
 using DataAcess;
 using Domain;
+using FluentValidation;
 
 namespace _5DanaUOblacima.Services
 {
     public class TeamService
     {
         private readonly GameContext _context;
-        public TeamService(GameContext context)
+        private readonly TeamValidation _validation;
+        public TeamService(GameContext context,TeamValidation validation)
         {
             this._context = context;
+            this._validation = validation;
         }
-        public bool AddTeam(TeamInsertDTO dto)
+        public void AddTeam(TeamInsertDTO dto)
         {
+            _validation.ValidateAndThrow(dto);
             string teamName=dto.teamName;
             ICollection<Guid> teamPlayers = dto.players;
-            if(teamPlayers.Count !=5) { return false; }
-
-              var playersInOtherTeams = _context.TeamPlayers
-                                         .Where(tp => teamPlayers.Contains(tp.playerId) && tp.Team.teamName != teamName)
-                                         .Select(tp => tp.playerId)
-                                         .ToList();
-
-            if (playersInOtherTeams.Any()) { return false; }
             Team team = new Team
             {
                 teamName = teamName,
@@ -39,7 +36,7 @@ namespace _5DanaUOblacima.Services
             _context.SaveChanges();
 
 
-            return true;
+            
         }
         public async Task<List<TeamGetDTO>> GetTeams(Guid? id)
         {

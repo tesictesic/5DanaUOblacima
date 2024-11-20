@@ -19,6 +19,8 @@ Postavite API projekat kao Startup Project.
 
 Pritisnite F5 ili pokrenite aplikaciju koristeći opciju Start Debugging.
 
+Dodajte prvo igraca, potom timove, a zatim meceve
+
 
 Tehnologije korišćene u projektu:
 

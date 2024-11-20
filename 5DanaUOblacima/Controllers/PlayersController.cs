@@ -21,13 +21,14 @@ namespace _5DanaUOblacima.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok(_playerService.GetPlayer(null).Result);
         }
 
         // GET api/<PlayerController>/5
         [HttpGet("{id}")]
         public IActionResult Get(Guid id)
         {
+            if(id==null)  return StatusCode(404);
             var result = _playerService.GetPlayer(id).Result;
             if (result != null) return Ok(result);
             else return StatusCode(404);
